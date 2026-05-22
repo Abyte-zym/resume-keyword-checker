@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历关键词检测器 | 免费JD匹配分析</title>
+<meta name="description" content="粘贴JD和简历，秒出匹配报告—缺少哪些关键词、技能差距在哪、如何优化简历。Java实习面试必备工具。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#1a1a2e;line-height:1.6}
+.container{max-width:720px;margin:0 auto;padding:20px}
+h1{font-size:1.6em;color:#0f172a;text-align:center;margin:15px 0}
+.subtitle{text-align:center;color:#64748b;font-size:.9em;margin-bottom:20px}
+.section{margin:15px 0}
+label{display:block;font-weight:700;color:#0f172a;margin-bottom:6px;font-size:.95em}
+textarea{width:100%;height:140px;border:2px solid #e2e8f0;border-radius:12px;padding:14px;font-size:.9em;resize:vertical;font-family:inherit}
+textarea:focus{outline:none;border-color:#2563eb}
+.example{font-size:.8em;color:#94a3b8;margin-top:4px;cursor:pointer;text-decoration:underline}
+.btn-row{text-align:center;margin:20px 0}
+button{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:14px 40px;border-radius:12px;font-size:1.1em;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3)}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.4)}
+.result{margin-top:20px;display:none}
+.score-circle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2em;font-weight:800;margin:0 auto 20px;color:#fff}
+.high{background:linear-gradient(135deg,#10b981,#059669)}
+.medium{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.low{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.card{background:#fff;border-radius:12px;padding:18px;margin:12px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h3{font-size:1em;margin-bottom:10px}
+.match-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.8em;margin:3px;background:#d1fae5;color:#065f46}
+.miss-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.8em;margin:3px;background:#fee2e2;color:#991b1b}
+.suggestion{background:#eff6ff;border-left:4px solid #2563eb;padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:.9em}
+.donate{text-align:center;margin:40px 0;padding:30px;background:linear-gradient(135deg,#fef3c7,#fef9c3);border-radius:16px}
+.donate img{width:180px;border-radius:12px}
+.donate p{color:#92400e;margin:10px 0}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0;padding:12px;background:#fff;border-radius:12px;justify-content:center}
+.nav a{background:#eff6ff;color:#2563eb;padding:5px 12px;border-radius:20px;text-decoration:none;font-size:.82em}
+footer{text-align:center;padding:20px;color:#94a3b8;font-size:.85em}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🔍 简历关键词检测器</h1>
+<p class="subtitle">粘贴JD和你的简历 → 秒出匹配报告 → 知道该补什么</p>
+
+<div class="nav">
+<a href="https://Abyte-zym.github.io/java-career-blog/">📚 面试博客</a>
+<a href="https://Abyte-zym.github.io/java-interview-quiz/">☕ 题库</a>
+<a href="https://Abyte-zym.github.io/java-interview-simulator/">🎯 模拟器</a>
+<a href="https://Abyte-zym.github.io/java-resume-builder/">📝 简历生成</a>
+<a href="https://Abyte-zym.github.io/arsenal/">🎯 弹药库</a>
+</div>
+
+<div class="section">
+<label>📋 粘贴岗位JD（职位描述）</label>
+<textarea id="jdInput" placeholder="把HR发你的JD粘贴在这里...&#10;&#10;例如：&#10;岗位要求：&#10;1、熟练掌握Java，Spring Boot，MyBatis&#10;2、熟悉MySQL数据库，Redis缓存&#10;3、了解微服务架构，Docker容器化&#10;..."></textarea>
+<span class="example" onclick="fillJD()">📎 点击填充示例JD</span>
+</div>
+
+<div class="section">
+<label>📝 粘贴你的简历</label>
+<textarea id="resumeInput" placeholder="粘贴你的简历全文...&#10;&#10;例如：&#10;长春理工大学 软件工程 本科&#10;技术栈：Java, Spring Boot, MySQL, Redis, Docker&#10;项目：RAG知识库系统...&#10;..."></textarea>
+<span class="example" onclick="fillResume()">📎 点击填充示例简历</span>
+</div>
+
+<div class="btn-row"><button onclick="analyze()">🔬 立即检测</button></div>
+
+<div class="result" id="result">
+<div id="scoreArea"></div>
+<div id="matchArea"></div>
+<div id="missArea"></div>
+<div id="suggestionArea"></div>
+
+<div class="donate">
+<p>☕ 检测结果有帮助？</p>
+<img src="https://raw.githubusercontent.com/Abyte-zym/jarvis-backup/main/mm_facetoface_collect_qrcode_1779427130944.png" alt="赞赏码">
+<p style="font-size:.85em">微信扫码 · 随缘赞赏</p>
+</div>
+</div>
+</div>
+
+<script>
+const JAVA_KEYWORDS = new Set([
+    'java','spring','springboot','spring cloud','mybatis','mybatis-plus','mysql','redis','docker','kubernetes','k8s',
+    'rocketmq','kafka','rabbitmq','消息队列','sentinel','nacos','gateway','微服务','分布式','高并发',
+    'jvm','多线程','并发','锁','aop','ioc','mvc','restful','git','maven','gradle','linux',
+    '设计模式','数据结构','算法','elasticsearch','mongodb','nginx','tomcat','jenkins','cicd',
+    'spring ai','langchain','rag','大模型','ai','人工智能','prompt','向量',
+    'sql调优','索引优化','分库分表','读写分离','单元测试','集成测试','性能优化',
+    'dubbo','zookeeper','netty','react','vue','javascript','typescript','html','css',
+    'oracle','postgresql','hadoop','spark','flink','hbase'
+]);
+
+function fillJD(){document.getElementById('jdInput').value='岗位要求：\n1、扎实的Java基础，熟悉JVM、多线程、集合框架\n2、熟练使用Spring Boot、Spring Cloud、MyBatis\n3、熟悉MySQL数据库，具备SQL调优能力\n4、掌握Redis缓存，了解缓存穿透/击穿/雪崩解决方案\n5、熟悉Docker容器化部署，了解Kubernetes优先\n6、有微服务架构经验，了解Nacos、Sentinel、RocketMQ\n7、熟悉Linux操作系统，掌握常用命令\n8、了解CI/CD流程，有Git使用经验'}
+function fillResume(){document.getElementById('resumeInput').value='长春理工大学 软件工程 本科\n技术栈：Java, Spring Boot, MySQL, Redis, Docker, Git\n项目：RAG智能知识库系统（Spring AI+向量检索）\n      微服务秒杀系统（Redis Lua+Nacos+RocketMQ）\n竞赛：AIGC全国三等奖、数学建模省一等奖'}
+function normalize(s){return s.toLowerCase().replace(/[^a-z\u4e00-\u9fff0-9]/g,' ')}
+function analyze(){
+    const jd=document.getElementById('jdInput').value.trim();
+    const resume=document.getElementById('resumeInput').value.trim();
+    if(!jd||!resume){alert('请填写JD和简历！');return}
+    const jdNorm=normalize(jd);const rNorm=normalize(resume);
+    const matched=[],missed=[];
+    JAVA_KEYWORDS.forEach(kw=>{
+        const kwNorm=normalize(kw);
+        if(jdNorm.includes(kwNorm)){if(rNorm.includes(kwNorm))matched.push(kw);else missed.push(kw)}
+    });
+    const total=matched.length+missed.length||1;
+    const pct=Math.round(matched.length/total*100);
+    let colorClass='low',emoji='😰',advice='JD里的关键词大部分没覆盖到。建议把缺失词补进简历或项目。';
+    if(pct>=70){colorClass='high';emoji='🎉';advice='匹配度很高！简历和JD高度契合，直接投！'}
+    else if(pct>=40){colorClass='medium';emoji='📝';advice='还不错但可以优化。把缺失的关键词融入项目描述。'}
+    document.getElementById('scoreArea').innerHTML=`<div class="score-circle ${colorClass}">${pct}%</div><p style="text-align:center;font-size:1.1em">${emoji} 匹配度 ${pct}% — ${advice}</p>`;
+    document.getElementById('matchArea').innerHTML=`<div class="card"><h3>✅ 已命中关键词 (${matched.length})</h3>${matched.map(k=>'<span class="match-tag">'+k+'</span>').join('')}</div>`;
+    document.getElementById('missArea').innerHTML=`<div class="card"><h3>⚠️ JD提到但你简历缺失 (${missed.length})</h3>${missed.map(k=>'<span class="miss-tag">'+k+'</span>').join('')}</div>`;
+    let tips='';
+    if(missed.includes('jvm'))tips+='<div class="suggestion">💡 <b>补JVM关键词：</b>在简历技术栈加"熟悉JVM内存模型与GC机制"</div>';
+    if(missed.includes('spring cloud')||missed.includes('微服务'))tips+='<div class="suggestion">💡 <b>补微服务关键词：</b>你的秒杀项目用了Spring Cloud Alibaba，简历里写"Spring Cloud Alibaba微服务体系(Nacos+Sentinel)"</div>';
+    if(missed.includes('多线程')||missed.includes('并发'))tips+='<div class="suggestion">💡 <b>补并发关键词：</b>秒杀项目天然涉及高并发——写"基于Redis+Lua原子扣减，解决高并发超卖"</div>';
+    if(missed.includes('kubernetes')||missed.includes('k8s'))tips+='<div class="suggestion">💡 <b>K8s缺失：</b>简历里Docker够用。面试被问到就说"了解K8s基本概念，目前项目用Docker Compose部署"</div>';
+    if(missed.includes('sql调优')||missed.includes('索引优化'))tips+='<div class="suggestion">💡 <b>补SQL关键词：</b>技术栈加"掌握MySQL索引优化与慢查询分析"</div>';
+    if(tips==='')tips='<div class="suggestion">✅ 没有明显缺口！你的简历已经很好，保持自信去投！</div>';
+    document.getElementById('suggestionArea').innerHTML='<div class="card"><h3>🎯 优化建议</h3>'+tips+'</div>';
+    document.getElementById('result').style.display='block';
+    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+</script>
+<footer>© 2026 Java面试弹药库 · 免费工具 · 随缘赞赏</footer>
+</body>
+</html>
