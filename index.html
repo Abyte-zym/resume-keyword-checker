@@ -58,7 +58,7 @@ footer{text-align:center;padding:20px;color:#94a3b8;font-size:.85em}
 
 <div class="section">
 <label>📝 粘贴你的简历</label>
-<textarea id="resumeInput" placeholder="粘贴你的简历全文...&#10;&#10;例如：&#10;长春理工大学 软件工程 本科&#10;技术栈：Java, Spring Boot, MySQL, Redis, Docker&#10;项目：RAG知识库系统...&#10;..."></textarea>
+<textarea id="resumeInput" placeholder="粘贴你的简历全文...&#10;&#10;例如：&#10;Java面试研究社 Java后端开发 本科&#10;技术栈：Java, Spring Boot, MySQL, Redis, Docker&#10;项目：RAG知识库系统...&#10;..."></textarea>
 <span class="example" onclick="fillResume()">📎 点击填充示例简历</span>
 </div>
 
@@ -91,7 +91,7 @@ const JAVA_KEYWORDS = new Set([
 ]);
 
 function fillJD(){document.getElementById('jdInput').value='岗位要求：\n1、扎实的Java基础，熟悉JVM、多线程、集合框架\n2、熟练使用Spring Boot、Spring Cloud、MyBatis\n3、熟悉MySQL数据库，具备SQL调优能力\n4、掌握Redis缓存，了解缓存穿透/击穿/雪崩解决方案\n5、熟悉Docker容器化部署，了解Kubernetes优先\n6、有微服务架构经验，了解Nacos、Sentinel、RocketMQ\n7、熟悉Linux操作系统，掌握常用命令\n8、了解CI/CD流程，有Git使用经验'}
-function fillResume(){document.getElementById('resumeInput').value='长春理工大学 软件工程 本科\n技术栈：Java, Spring Boot, MySQL, Redis, Docker, Git\n项目：RAG智能知识库系统（Spring AI+向量检索）\n      微服务秒杀系统（Redis Lua+Nacos+RocketMQ）\n竞赛：AIGC全国三等奖、数学建模省一等奖'}
+function fillResume(){document.getElementById('resumeInput').value='Java面试研究社 Java后端开发 本科\n技术栈：Java, Spring Boot, MySQL, Redis, Docker, Git\n项目：RAG智能知识库系统（Spring AI+向量检索）\n      微服务秒杀系统（Redis Lua+Nacos+RocketMQ）\n竞赛：AIGC全国三等奖、数学建模省一等奖'}
 function normalize(s){return s.toLowerCase().replace(/[^a-z\u4e00-\u9fff0-9]/g,' ')}
 function analyze(){
     const jd=document.getElementById('jdInput').value.trim();
